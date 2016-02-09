@@ -1,11 +1,8 @@
 package com.kadircenk.drugtracesystem;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +26,12 @@ public class ilacTest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ilac_test);
 
+
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.hide(); // NullPointerException atabilir
+        }
+
 
         ilacIsmi = (TextView) findViewById(R.id.ilacIsmi);
         fiyat = (TextView) findViewById(R.id.fiyat);

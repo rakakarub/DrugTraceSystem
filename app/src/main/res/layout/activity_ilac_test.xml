@@ -11,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.8"
-        android:background="@drawable/ilac_takip"></LinearLayout>
+        android:background="@drawable/ilac_takip" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.2"
+        android:orientation="vertical"
         android:paddingLeft="20sp"
-        android:paddingTop="80sp"
-        android:orientation="vertical">
+        android:paddingTop="80sp">
 
         <LinearLayout
             android:layout_width="wrap_content"

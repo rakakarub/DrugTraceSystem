@@ -4,7 +4,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,7 +24,9 @@ public class credits extends AppCompatActivity {
         setContentView(R.layout.activity_credits);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.hide(); // NullPointerException atabilir
+        }
 
         txt_kes = (TextView) findViewById(R.id.kes_txt);
         surprise_button = (Button) findViewById(R.id.surprise_button);
@@ -46,10 +47,9 @@ public class credits extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (mp.isPlaying())
-                {
+                if (mp.isPlaying()) {
                     mp.pause();
-                } else{
+                } else {
                     mp.start();
                     Toast.makeText(credits.this, R.string.surprise, Toast.LENGTH_LONG).show();
                 }
@@ -62,8 +62,7 @@ public class credits extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (mp.isPlaying())
-        {
+        if (mp.isPlaying()) {
             mp.stop();
         }
     }

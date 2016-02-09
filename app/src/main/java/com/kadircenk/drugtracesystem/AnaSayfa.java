@@ -2,14 +2,13 @@ package com.kadircenk.drugtracesystem;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 public class AnaSayfa extends AppCompatActivity {
@@ -20,7 +19,9 @@ public class AnaSayfa extends AppCompatActivity {
         setContentView(R.layout.activity_ana_sayfa);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.hide(); // NullPointerException atabilir
+        }
 
     }
 
@@ -53,11 +54,8 @@ public class AnaSayfa extends AppCompatActivity {
     }
 
     public boolean isConnected() {
-        NetworkInfo networkInfo = ((ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
+        NetworkInfo networkInfo = ((ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }

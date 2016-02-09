@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.6"
-        android:background="@drawable/logo"></LinearLayout>
+        android:background="@drawable/logo" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.6"></LinearLayout>
+            android:layout_weight="0.6" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:text="KSC Software Team"
                         android:textSize="26sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -66,44 +66,43 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="10sp"
                         android:text="@string/burak_akar"
-                        android:textSize="20sp"
-                        android:paddingTop="10sp"/>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="10sp"
                         android:text="@string/kadir_berkay_aydemir"
-                        android:textSize="20sp"
-                        android:paddingTop="10sp"/>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="10sp"
                         android:text="@string/kadir_cenk_alpay"
-                        android:textSize="20sp"
-                        android:paddingTop="10sp"/>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="10sp"
                         android:text="@string/mustafa_agriman"
-                        android:textSize="20sp"
-                        android:paddingTop="10sp"/>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="10sp"
                         android:text="@string/onur_henden"
-                        android:textSize="20sp"
-                        android:paddingTop="10sp"/>
+                        android:textSize="20sp" />
 
 
                 </LinearLayout>
 
 
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -119,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="15sp"
-                android:text="*"/>
+                android:text="*" />
 
         </LinearLayout>
 
