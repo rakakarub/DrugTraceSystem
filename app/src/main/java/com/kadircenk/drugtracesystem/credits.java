@@ -43,6 +43,14 @@ public class credits extends AppCompatActivity {
             }
         });
 
+        txt_kes.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+
+
         surprise_button.setOnClickListener(new View.OnClickListener() {
 
             @Override
