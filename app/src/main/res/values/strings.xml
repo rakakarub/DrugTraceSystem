@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">İlaç Takip Sistemi</string>
+    <string name="ecza_dolabi">Ecza Dolabı</string>
+    <string name="kisiler">Kişiler</string>
+    <string name="ilac_sorgulama">İlaç Sorgulama</string>
+    <string name="gelistiriciler">Geliştiriciler</string>
+    <string name="ilac_ismi_bekleniyor">İlaç ismi bekleniyor...</string>
+    <string name="ilac_fiyati_bekleniyor">İlaç fiyatı bekleniyor...</string>
+    <string name="ilac_skt_bekleniyor">İlaç SKT bekleniyor...</string>
+    <string name="ksc_software_team">KSC Software Team</string>
+    <string name="bugra_kaan_demirdover">Buğra Kaan Demirdöver</string>
+    <string name="burak_akar">Burak Akar</string>
+    <string name="kadir_berkay_aydemir">Kadir Berkay Aydemir</string>
+    <string name="kadir_cenk_alpay">Kadir Cenk Alpay</string>
+    <string name="mustafa_agriman">Mustafa Ağrıman</string>
+    <string name="onur_henden">Onur Henden</string>
+    <string name="kesici_pop_up">Kesiciler!</string>
+    <string name="yapim_asamasinda">Yapım aşamasında!</string>
+    <string name="no_internet">İnternete bağlı değilsiniz!</string>
+    <string name="surprise">xDxDxD</string>
+
+</resources>
