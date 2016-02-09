@@ -1,4 +1,4 @@
-package com.kadircenk.drugtracesystem.;
+package com.kadircenk.drugtracesystem;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
