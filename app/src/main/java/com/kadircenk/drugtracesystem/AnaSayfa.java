@@ -25,11 +25,17 @@ public class AnaSayfa extends AppCompatActivity {
 
     }
 
-    public void eczaDolabi(View view) {
+    public void eczaDolabi(View view)
+    {
+        /*
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 300 milliseconds
         v.vibrate(300);
         Toast.makeText(this, R.string.yapim_asamasinda, Toast.LENGTH_SHORT).show();
+        */
+
+        Intent intent = new Intent(this, QR_Scanner.class);
+        startActivity(intent);
     }
 
     public void kisiler(View view) {

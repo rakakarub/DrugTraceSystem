@@ -1,5 +1,6 @@
 package com.kadircenk.drugtracesystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,12 @@ public class ilacTest extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide(); // NullPointerException atabilir
         }
+
+        Intent intent = getIntent();
+        String gelenVeri = intent.getStringExtra("veri");
+
+        TextView veriText = (TextView)findViewById(R.id.veri);
+        veriText.setText(gelenVeri);
 
 
         ilacIsmi = (TextView) findViewById(R.id.ilacIsmi);
