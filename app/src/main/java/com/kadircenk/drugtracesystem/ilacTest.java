@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +14,9 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class ilacTest extends AppCompatActivity {
 
     private static final String NAMESPACE = "http://its.titck.gov.tr/net/check/productstatus/";
@@ -21,6 +25,9 @@ public class ilacTest extends AppCompatActivity {
     private static final String METHOD_NAME = "CheckProductStatusRequest";
 
     TextView ilacIsmi, fiyat, skt;
+
+    String hash, hashSon;
+    String barkodNumarası, seriNumarası;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +48,8 @@ public class ilacTest extends AppCompatActivity {
 
         char ilkKarakter = gelenVeri.charAt(0);
 
-        String barkodNumarası = gelenVeri.substring(3,17);
-        String seriNumarası = "";
+        barkodNumarası = gelenVeri.substring(3,17);
+        seriNumarası = "";
         int index = 19;
 
         while(true)
@@ -61,6 +68,28 @@ public class ilacTest extends AppCompatActivity {
 
         TextView seriText = (TextView) findViewById(R.id.seri);
         seriText.setText(seriNumarası);
+
+        hash = "";
+        try
+        {
+             hash = sha1(barkodNumarası+seriNumarası);
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+
+        }
+
+        hashSon = "";
+        try
+        {
+            hashSon = sha1( hash.substring(5,21) + hash.substring(3,12) );
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+
+        }
+
+        Log.d("solitaire", hashSon);
 
 
         ilacIsmi = (TextView) findViewById(R.id.ilacIsmi);
@@ -81,15 +110,15 @@ public class ilacTest extends AppCompatActivity {
                     PropertyInfo DEVICE = new PropertyInfo();
 
                     GTIN.setName("GTIN");
-                    GTIN.setValue("08699514129110");
+                    GTIN.setValue(barkodNumarası);
                     GTIN.setType(String.class);
 
                     SN.setName("SN");
-                    SN.setValue("291942006945105");
+                    SN.setValue(seriNumarası);
                     SN.setType(String.class);
 
                     CHECK.setName("CHECK");
-                    CHECK.setValue("333ad1d6c931f7ea9b2098a504dc6c76513c6511");
+                    CHECK.setValue(hashSon);
                     CHECK.setType(String.class);
 
                     ISMANUEL.setName("ISMANUEL");
@@ -143,6 +172,18 @@ public class ilacTest extends AppCompatActivity {
 
             }
         }).start();
+    }
+
+    public static String sha1(String input) throws NoSuchAlgorithmException
+    {
+        MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+        byte[] result = mDigest.digest(input.getBytes());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++)
+        {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString();
     }
 
 
