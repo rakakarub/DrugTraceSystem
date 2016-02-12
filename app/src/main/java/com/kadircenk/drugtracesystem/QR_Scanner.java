@@ -43,6 +43,10 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
         //Toast.makeText(this, rawResult.getText(), Toast.LENGTH_LONG);
 
         Log.v("solitaire", rawResult.getText()); // Prints scan results
+        Log.v("solitaire", String.valueOf( rawResult.getText().length() ) ); // Prints scan results length
+        if(rawResult.getText().charAt(0) == rawResult.getText().charAt(26))
+            Log.d("solitaire", "adbadnsfmsfm");
+
         Log.v("solitaire", rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
 
         // If you would like to resume scanning, call this method below:

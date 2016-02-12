@@ -74,6 +74,34 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asfasfasdasf"
+                android:textSize="20sp"
+                android:id="@+id/barkod"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asfasfasdasf"
+                android:textSize="20sp"
+                android:id="@+id/seri"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

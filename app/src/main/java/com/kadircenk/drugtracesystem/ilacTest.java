@@ -39,6 +39,29 @@ public class ilacTest extends AppCompatActivity {
         TextView veriText = (TextView)findViewById(R.id.veri);
         veriText.setText(gelenVeri);
 
+        char ilkKarakter = gelenVeri.charAt(0);
+
+        String barkodNumarası = gelenVeri.substring(3,17);
+        String seriNumarası = "";
+        int index = 19;
+
+        while(true)
+        {
+            if(gelenVeri.charAt(index) == ilkKarakter)
+                break;
+
+            else
+                seriNumarası += gelenVeri.charAt(index);
+
+            index++;
+        }
+
+        TextView barkodText = (TextView) findViewById(R.id.barkod);
+        barkodText.setText(barkodNumarası);
+
+        TextView seriText = (TextView) findViewById(R.id.seri);
+        seriText.setText(seriNumarası);
+
 
         ilacIsmi = (TextView) findViewById(R.id.ilacIsmi);
         fiyat = (TextView) findViewById(R.id.fiyat);
