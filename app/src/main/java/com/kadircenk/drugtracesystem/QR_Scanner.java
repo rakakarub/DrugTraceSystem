@@ -1,10 +1,10 @@
 package com.kadircenk.drugtracesystem;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.zxing.Result;
 
@@ -17,7 +17,25 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
-        mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+
+        //mScannerView initialize ederken negatifse veya degilse ona gore init. yapicaz.
+        boolean negatif = getIntent().getExtras().getBoolean("negatif");
+        if (negatif) {
+            mScannerView = new ZXingScannerView(this) {
+                @Override
+                public void onPreviewFrame(byte[] data, Camera camera) {
+                    Camera.Parameters params = camera.getParameters();
+                    params.setColorEffect("negative");
+                    camera.setParameters(params);
+                    super.onPreviewFrame(data, camera);
+                }
+            };   // Programmatically initialize the scanner view
+        } else {
+            mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+        }
+
+
+
         setContentView(mScannerView);                // Set the scanner view as the content view
     }
 
@@ -33,7 +51,6 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
         super.onPause();
         mScannerView.stopCamera();           // Stop camera on pause
     }
-
 
     @Override
     public void handleResult(Result rawResult)
