@@ -5,6 +5,8 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.zxing.Result;
 
@@ -16,6 +18,11 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
 
     @Override
     public void onCreate(Bundle state) {
+        // remove title
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(state);
 
         //mScannerView initialize ederken negatifse veya degilse ona gore init. yapicaz.
@@ -32,6 +39,7 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
         } else {
             mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
         }
+
         setContentView(mScannerView);                // Set the scanner view as the content view
 
         ActionBar actionBar = getSupportActionBar();

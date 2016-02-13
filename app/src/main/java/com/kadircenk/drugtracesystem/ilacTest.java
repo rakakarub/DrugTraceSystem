@@ -101,7 +101,7 @@ public class ilacTest extends AppCompatActivity {
 
         } else { // getStringExtra("veri")==null durumu
             //geri dondur simdilik
-            finish();
+            finish(); // BOZUK CALISMIYOR KALDIRILACAK when we put on/off for negative mode near the camera screen
         }
 
         new Thread(new Runnable() {
