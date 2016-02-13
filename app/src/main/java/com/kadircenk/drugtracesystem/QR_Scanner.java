@@ -3,8 +3,8 @@ package com.kadircenk.drugtracesystem;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.google.zxing.Result;
 
@@ -19,8 +19,7 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
         super.onCreate(state);
 
         //mScannerView initialize ederken negatifse veya degilse ona gore init. yapicaz.
-        boolean negatif = getIntent().getExtras().getBoolean("negatif");
-        if (negatif) {
+        if (getIntent().getExtras().getBoolean("negatif")) {
             mScannerView = new ZXingScannerView(this) {
                 @Override
                 public void onPreviewFrame(byte[] data, Camera camera) {
@@ -33,10 +32,11 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
         } else {
             mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
         }
-
-
-
         setContentView(mScannerView);                // Set the scanner view as the content view
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.hide(); // NullPointerException atabilir
     }
 
     @Override
@@ -55,19 +55,17 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
     @Override
     public void handleResult(Result rawResult)
     {
-        // Do something with the result here
+//         Do something with the result here
 
-        //Toast.makeText(this, rawResult.getText(), Toast.LENGTH_LONG);
+//        Log.v("solitaire", rawResult.getText()); // Prints scan results
+//        Log.v("solitaire", String.valueOf( rawResult.getText().length() ) ); // Prints scan results length
+//        if(rawResult.getText().charAt(0) == rawResult.getText().charAt(26))
+//            Log.d("solitaire", "adbadnsfmsfm");
+//
+//        Log.v("solitaire", rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
 
-        Log.v("solitaire", rawResult.getText()); // Prints scan results
-        Log.v("solitaire", String.valueOf( rawResult.getText().length() ) ); // Prints scan results length
-        if(rawResult.getText().charAt(0) == rawResult.getText().charAt(26))
-            Log.d("solitaire", "adbadnsfmsfm");
-
-        Log.v("solitaire", rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
-
-        // If you would like to resume scanning, call this method below:
-        //mScannerView.resumeCameraPreview(this);
+//         If you would like to resume scanning, call this method below:
+//        mScannerView.resumeCameraPreview(this);
 
         mScannerView.stopCamera();
 

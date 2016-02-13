@@ -21,47 +21,43 @@ public class AnaSayfa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ana_sayfa);
 
-        qr_btn = (Button) findViewById(R.id.qr_btn);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.hide(); // NullPointerException atabilir
 
-        //LONG CLICK OPENS QR_SCANNER IN NEGATIVE MODE
-        qr_btn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(AnaSayfa.this, QR_Scanner.class);
-                intent.putExtra("negatif", true);
-                startActivity(intent);
-                return true;
-            }
-        });
+        qr_btn = (Button) findViewById(R.id.qr_btn);
 
         //SHORT CLICK OPENS QR_SCANNER IN NORMAL MODE
         qr_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AnaSayfa.this, QR_Scanner.class);
-                intent.putExtra("negatif", false);
+                intent.putExtra("negatif", false); //normal modda calistir kamerayi
                 startActivity(intent);
             }
         });
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide(); // NullPointerException atabilir
-        }
-
+        //LONG CLICK OPENS QR_SCANNER IN NEGATIVE MODE
+        qr_btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(AnaSayfa.this, QR_Scanner.class);
+                intent.putExtra("negatif", true); //negatif modda calistir kamerayi
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 
-    public void kisiler(View view) {
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        // Vibrate for 300 milliseconds
-        v.vibrate(300);
+    public void kisiler(View view) { // SONRA YAPILACAK
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(100); // Vibrate for 100 milliseconds
         Toast.makeText(this, R.string.yapim_asamasinda, Toast.LENGTH_SHORT).show();
     }
 
     public void ilacTest(View view) {
         if (!isConnected()) {
             Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
-        } else { // internet varsa
+        } else { // internet varsa devam et
             Intent intent = new Intent(this, ilacTest.class);
             startActivity(intent);
         }

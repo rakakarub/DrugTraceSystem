@@ -50,7 +50,6 @@
 
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -98,32 +97,15 @@
                         android:text="@string/onur_henden"
                         android:textSize="20sp" />
 
-
                 </LinearLayout>
-
-
             </LinearLayout>
-
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.6"
-            android:gravity="bottom">
-
-            <Button
-                android:id="@+id/surprise_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="15sp"
-                android:text="*" />
-
-        </LinearLayout>
-
+            android:gravity="bottom" />
 
     </LinearLayout>
-
-
 </LinearLayout>

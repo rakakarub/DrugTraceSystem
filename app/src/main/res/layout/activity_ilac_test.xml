@@ -66,11 +66,11 @@
             android:layout_marginTop="40dp">
 
             <TextView
+                android:id="@+id/veri"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="asfasfasdasf"
-                android:textSize="20sp"
-                android:id="@+id/veri"/>
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -80,11 +80,11 @@
             android:layout_marginTop="40dp">
 
             <TextView
+                android:id="@+id/barkod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="asfasfasdasf"
-                android:textSize="20sp"
-                android:id="@+id/barkod"/>
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -94,11 +94,11 @@
             android:layout_marginTop="40dp">
 
             <TextView
+                android:id="@+id/seri"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="asfasfasdasf"
-                android:textSize="20sp"
-                android:id="@+id/seri"/>
+                android:textSize="20sp" />
 
         </LinearLayout>
 
