@@ -50,8 +50,10 @@ public class AnaSayfa extends AppCompatActivity {
     }
 
     public void kisiler(View view) { // SONRA YAPILACAK
-        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(100); // Vibrate for 100 milliseconds
-        Toast.makeText(this, R.string.yapim_asamasinda, Toast.LENGTH_SHORT).show();
+        //((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(100); // Vibrate for 100 milliseconds
+        //Toast.makeText(this, R.string.yapim_asamasinda, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this,kisiler.class);
+        startActivity(intent);
     }
 
     public void ilacTest(View view) {
