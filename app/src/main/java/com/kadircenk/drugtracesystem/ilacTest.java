@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,9 +31,9 @@ public class ilacTest extends AppCompatActivity {
     public static String sha1(String input) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA1");
         byte[] result = mDigest.digest(input.getBytes());
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < result.length; i++) {
-            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        StringBuilder sb = new StringBuilder();
+        for (byte aResult : result) {
+            sb.append(Integer.toString((aResult & 0xff) + 0x100, 16).substring(1));
         }
         return sb.toString();
     }
@@ -48,60 +47,42 @@ public class ilacTest extends AppCompatActivity {
         if (actionBar != null)
             actionBar.hide(); // NullPointerException atabilir
 
+        ilacIsmi = (TextView) findViewById(R.id.ilacIsmi);
+        fiyat = (TextView) findViewById(R.id.fiyat);
+        skt = (TextView) findViewById(R.id.skt);
+
         Intent intent = getIntent();
 
-        if (intent.getStringExtra("veri") != null) {
-            String gelenVeri = intent.getStringExtra("veri");
+        String gelenVeri = intent.getStringExtra("veri");
 
-            TextView veriText = (TextView) findViewById(R.id.veri);
-            veriText.setText(gelenVeri);
+        char ilkKarakter = gelenVeri.charAt(0);
 
-            char ilkKarakter = gelenVeri.charAt(0);
+        barkodNumarası = gelenVeri.substring(3, 17);
+        seriNumarası = "";
+        int index = 19;
 
-            barkodNumarası = gelenVeri.substring(3, 17);
-            seriNumarası = "";
-            int index = 19;
+        while (true) {
+            if (gelenVeri.charAt(index) == ilkKarakter)
+                break;
 
-            while (true) {
-                if (gelenVeri.charAt(index) == ilkKarakter)
-                    break;
+            else
+                seriNumarası += gelenVeri.charAt(index);
 
-                else
-                    seriNumarası += gelenVeri.charAt(index);
+            index++;
+        }
 
-                index++;
-            }
+        hash = "";
+        try {
+            hash = sha1(barkodNumarası + seriNumarası);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
-            TextView barkodText = (TextView) findViewById(R.id.barkod);
-            barkodText.setText(barkodNumarası);
-
-            TextView seriText = (TextView) findViewById(R.id.seri);
-            seriText.setText(seriNumarası);
-
-            hash = "";
-            try {
-                hash = sha1(barkodNumarası + seriNumarası);
-            } catch (NoSuchAlgorithmException e) {
-
-            }
-
-            hashSon = "";
-            try {
-                hashSon = sha1(hash.substring(5, 21) + hash.substring(3, 12));
-            } catch (NoSuchAlgorithmException e) {
-
-            }
-
-            Log.d("solitaire", hashSon);
-
-
-            ilacIsmi = (TextView) findViewById(R.id.ilacIsmi);
-            fiyat = (TextView) findViewById(R.id.fiyat);
-            skt = (TextView) findViewById(R.id.skt);
-
-        } else { // getStringExtra("veri")==null durumu
-            //geri dondur simdilik
-            finish(); // BOZUK CALISMIYOR KALDIRILACAK when we put on/off for negative mode near the camera screen
+        hashSon = "";
+        try {
+            hashSon = sha1(hash.substring(5, 21) + hash.substring(3, 12));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
 
         new Thread(new Runnable() {
@@ -177,7 +158,6 @@ public class ilacTest extends AppCompatActivity {
                     });
                     finish();
                 }
-
             }
         }).start();
     }
