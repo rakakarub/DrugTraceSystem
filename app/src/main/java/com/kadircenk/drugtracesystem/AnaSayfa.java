@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class AnaSayfa extends AppCompatActivity {
 
-    Button qr_btn;
+    Button qr_btn; // LONG PRESS vs. SHORT PRESS for different QR_SCAN modes.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
