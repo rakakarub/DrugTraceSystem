@@ -31,20 +31,8 @@ public class AnaSayfa extends AppCompatActivity {
         qr_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AnaSayfa.this, QR_Scanner.class);
-                intent.putExtra("negatif", false); //normal modda calistir kamerayi
+                Intent intent = new Intent(AnaSayfa.this, eczaDolabi.class);
                 startActivity(intent);
-            }
-        });
-
-        //LONG CLICK OPENS QR_SCANNER IN NEGATIVE MODE
-        qr_btn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(AnaSayfa.this, QR_Scanner.class);
-                intent.putExtra("negatif", true); //negatif modda calistir kamerayi
-                startActivity(intent);
-                return true;
             }
         });
     }

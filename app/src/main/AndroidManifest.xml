@@ -32,7 +32,8 @@
             android:name=".QR_Scanner"
             android:screenOrientation="portrait" />
         <activity android:name=".kisiler" />
-        <activity android:name=".kisi_ekle"></activity>
+        <activity android:name=".kisi_ekle" />
+        <activity android:name=".eczaDolabi"></activity>
     </application>
 
 </manifest>
