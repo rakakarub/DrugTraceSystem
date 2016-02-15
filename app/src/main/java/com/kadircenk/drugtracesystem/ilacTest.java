@@ -5,20 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.PropertyInfo;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class ilacTest extends AppCompatActivity {
 
-    private static final String NAMESPACE = "http://its.titck.gov.tr/net/check/productstatus/";
+  /*  private static final String NAMESPACE = "http://its.titck.gov.tr/net/check/productstatus/";
     private static final String URL = "http://its.saglik.gov.tr/ControlProduct/CheckProductStatusService";
     private static final String SOAP_ACTION = "http://its.titck.gov.tr/net/check/productstatus/CheckProductStatusRequest";
     private static final String METHOD_NAME = "CheckProductStatusRequest";
@@ -36,12 +26,31 @@ public class ilacTest extends AppCompatActivity {
             sb.append(Integer.toString((aResult & 0xff) + 0x100, 16).substring(1));
         }
         return sb.toString();
-    }
+    }*/
+
+    TextView ilacIsmi, fiyat, skt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_ilac_test);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.hide();
+
+        Intent data = getIntent();
+
+        ilacIsmi = (TextView) findViewById(R.id.ilacIsmi);
+        fiyat = (TextView) findViewById(R.id.fiyat);
+        skt = (TextView) findViewById(R.id.skt);
+
+        ilacIsmi.setText("İsim: " + data.getStringExtra("drugName"));
+        fiyat.setText("Fiyat: " + data.getStringExtra("price"));
+        skt.setText("SKT: " + data.getStringExtra("SKT"));
+
+       /* setContentView(R.layout.activity_ilac_test);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -159,6 +168,6 @@ public class ilacTest extends AppCompatActivity {
                     finish();
                 }
             }
-        }).start();
+        }).start();*/
     }
 }

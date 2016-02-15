@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.google.zxing.Result;
 
@@ -32,16 +31,12 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
     private static final String URL = "http://its.saglik.gov.tr/ControlProduct/CheckProductStatusService";
     private static final String SOAP_ACTION = "http://its.titck.gov.tr/net/check/productstatus/CheckProductStatusRequest";
     private static final String METHOD_NAME = "CheckProductStatusRequest";
-
-    private ZXingScannerView mScannerView;
-
     LinearLayout llid;
-
     String gelenVeri;
     String hash, hashSon;
     String barkodNumarası, seriNumarası;
-
     SoapObject response;
+    private ZXingScannerView mScannerView;
 
     public static String sha1(String input) throws NoSuchAlgorithmException
     {
@@ -258,11 +253,25 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
 
                 finally
                 {
-                    Intent data = new Intent();
-                    data.putExtra("drugName", String.valueOf(response.getProperty("DRUGNAME")) );
-                    setResult(RESULT_OK, data);
-                    QR_Scanner.this.finish();
 
+                    Intent temp_intent = getIntent();
+
+
+                    String query = temp_intent.getStringExtra("query");
+                    if (query.compareTo("sorgu") == 0) {
+                        Intent SBA = new Intent(getApplicationContext(), ilacTest.class);
+
+                        SBA.putExtra("drugName", String.valueOf(response.getProperty("DRUGNAME")));
+                        SBA.putExtra("price", String.valueOf(response.getProperty("PRICE") + " ₺"));
+                        SBA.putExtra("SKT", String.valueOf(response.getProperty("PRODUCTEXPIREDATE")));
+                        startActivity(SBA);
+
+                    } else {
+                        Intent data = new Intent();
+                        data.putExtra("drugName", String.valueOf(response.getProperty("DRUGNAME")));
+                        setResult(RESULT_OK, data);
+                    }
+                    QR_Scanner.this.finish();
                 }
             }
 

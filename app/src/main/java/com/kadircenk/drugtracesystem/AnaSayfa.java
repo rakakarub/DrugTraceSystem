@@ -1,11 +1,9 @@
 package com.kadircenk.drugtracesystem;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +13,7 @@ import android.widget.Toast;
 public class AnaSayfa extends AppCompatActivity {
 
     Button qr_btn; // LONG PRESS vs. SHORT PRESS for different QR_SCAN modes.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,8 @@ public class AnaSayfa extends AppCompatActivity {
         if (!isConnected()) {
             Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
         } else { // internet varsa devam et
-            Intent intent = new Intent(this, ilacTest.class);
+            Intent intent = new Intent(this, QR_Scanner.class);
+            intent.putExtra("query", "sorgu");
             startActivity(intent);
         }
     }

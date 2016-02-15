@@ -59,7 +59,8 @@ public class eczaDolabi extends AppCompatActivity implements AdapterView.OnItemC
     public void yeniİlaç(View v)
     {
         Intent intent = new Intent(this, QR_Scanner.class);
-        startActivityForResult(intent,1);
+        intent.putExtra("query", "ecza_dolabi");
+        startActivityForResult(intent, 1);
     }
 
     @Override
