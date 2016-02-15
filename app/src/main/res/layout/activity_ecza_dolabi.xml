@@ -3,44 +3,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="10dp"
-    tools:context="com.kadircenk.drugtracesystem.eczaDolabi"
-    android:orientation="vertical">
+    tools:context="com.kadircenk.drugtracesystem.eczaDolabi">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_weight="0.7"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/ilac_ismi_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="İlaç Adı :"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:text="İlaç İsmi :"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/ilac_skt_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="S.K.T :"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="0.4">
+        android:layout_weight="0.4"
+        android:orientation="vertical">
 
         <ListView
+            android:id="@+id/dolap_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/dolap_list">
+            android:layout_weight="1">
         </ListView>
 
     </LinearLayout>
@@ -48,16 +50,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_weight="0.9"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/buttonshape"
-            android:text="Yeni İlaç Ekle"
-            android:onClick="yeniİlaç"/>
+            android:onClick="yeniİlaç"
+            android:text="Yeni İlaç Ekle" />
 
     </LinearLayout>
 
