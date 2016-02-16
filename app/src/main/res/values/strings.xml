@@ -6,6 +6,7 @@
     <string name="ilac_sorgulama">İlaç Sorgulama</string>
     <string name="ilac_ismi">İlaç İsmi:</string>
     <string name="ilac_skt">İlaç SKT:</string>
+    <string name="ilac_fiyat">İlaç Fiyat:</string>
     <string name="detay_gormek_icin_ilac_sec">Detayları görmek için listeden ilaç seçiniz...</string>
     <string name="yeni_ilac_ekle">Yeni İlaç Ekle</string>
     <string name="gelistiriciler">Geliştiriciler</string>

@@ -22,10 +22,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="40dp"
-                android:paddingTop="10dp"
+                android:paddingBottom="20dp"
                 android:text="@string/ilac_ismi"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -46,14 +45,38 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
                 android:text="@string/ilac_skt"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ilac_skt_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/detay_gormek_icin_ilac_sec"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:text="@string/ilac_fiyat"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ilac_fiyat_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isScrollContainer="true"
                 android:text="@string/detay_gormek_icin_ilac_sec"
                 android:textSize="16sp" />
 

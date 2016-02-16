@@ -258,6 +258,8 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
                     } else {
                         Intent data = new Intent();
                         data.putExtra("drugName", String.valueOf(response.getProperty("DRUGNAME")));
+                        data.putExtra("drugSKT", String.valueOf(response.getProperty("PRODUCTEXPIREDATE")));
+                        data.putExtra("drugPrice", String.valueOf(response.getProperty("PRICE")));
                         setResult(RESULT_OK, data);
                     }
                     QR_Scanner.this.finish();

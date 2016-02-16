@@ -3,6 +3,7 @@ package com.kadircenk.drugtracesystem;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -22,9 +23,8 @@ public class eczaDolabi extends AppCompatActivity {
     ArrayAdapter<String> mArrayAdapter;
     ArrayList<String> mDrugList = new ArrayList<>();
     ArrayList<String> mDrugList_id = new ArrayList<>();
-    TextView ilac_ismi_header;
-    TextView ilac_skt_header;
-    String gelenVeri;
+    TextView ilac_ismi_header, ilac_skt_header, ilac_fiyat_header;
+    String gelenDrugName, gelenDrugSKT, gelenDrugPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +39,7 @@ public class eczaDolabi extends AppCompatActivity {
 
         ilac_ismi_header = (TextView) findViewById(R.id.ilac_ismi_header);
         ilac_skt_header = (TextView) findViewById(R.id.ilac_skt_header);
+        ilac_fiyat_header = (TextView) findViewById(R.id.ilac_fiyat_header);
         mainListView = (ListView) findViewById(R.id.dolap_list);
 
         SQLiteDatabase myDB = openOrCreateDatabase("DrugTraceSystem", MODE_PRIVATE, null);
@@ -47,7 +48,7 @@ public class eczaDolabi extends AppCompatActivity {
         Cursor resultSet = myDB.rawQuery("Select * from Users", null);
 
         while (resultSet.moveToNext()) {
-            mDrugList.add(resultSet.getString(2)); // bu while loop, resultSet boş degilse komple tum itemlerini tarıyor, 2. field'ı (ilac_name) alıyor.
+            mDrugList.add(" " + resultSet.getString(2) + ", " + resultSet.getString(3) + ", " + resultSet.getString(4) + "₺"); // bu while loop, resultSet boş degilse komple tum itemlerini tarıyor, 2. field'ı (ilac_name) alıyor.
             mDrugList_id.add(resultSet.getString(0)); // get id of this loop item, sonradan DB'den silebilmek icin kullanicaz.
         }
 
@@ -57,9 +58,16 @@ public class eczaDolabi extends AppCompatActivity {
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String ilac_ismi = mainListView.getItemAtPosition(position).toString();
+                String[] listItemdeYazanlar = mainListView.getItemAtPosition(position).toString().split(","); // ilac_ismi,|ilac_skt|ilac_fiyat ayırdık.
+                String ilac_ismi = listItemdeYazanlar[0];
+                String ilac_skt = listItemdeYazanlar[1];
+                String ilac_fiyat = listItemdeYazanlar[2];
+
+//                Toast.makeText(getApplicationContext(),mainListView.getItemAtPosition(position).toString().split(",")[0],Toast.LENGTH_LONG).show();
+
                 ilac_ismi_header.setText(ilac_ismi);
-                ilac_skt_header.setText("Boş");
+                ilac_skt_header.setText(ilac_skt);
+                ilac_fiyat_header.setText(ilac_fiyat);
             }
         });
 
@@ -102,18 +110,24 @@ public class eczaDolabi extends AppCompatActivity {
                 if (resultCode == RESULT_OK)
                 {
                     if (data.hasExtra("drugName")) {
-                        gelenVeri = data.getStringExtra("drugName");
+                        gelenDrugName = data.getStringExtra("drugName");
+                        gelenDrugSKT = data.getStringExtra("drugSKT");
+                        gelenDrugPrice = data.getStringExtra("drugPrice");
+
+//                        Toast.makeText(getApplicationContext(), gelenDrugName+gelenDrugSKT+gelenDrugPrice, Toast.LENGTH_LONG).show();
 
                         Resources rs = getResources();
                         SQLiteDatabase myDB = eczaDolabi.this.openOrCreateDatabase(rs.getString(R.string.db_name), MODE_PRIVATE, null);
                         myDB.execSQL(rs.getString(R.string.create_table_query));
-                        myDB.execSQL(rs.getString(R.string.insert_header) + "('admin','" + gelenVeri + "','test_skt','test_fiyat');");
+
+//                        Toast.makeText(getApplicationContext(), rs.getString(R.string.insert_header) + "('admin'," + DatabaseUtils.sqlEscapeString(gelenDrugName) + "," + DatabaseUtils.sqlEscapeString(gelenDrugSKT) + "," + DatabaseUtils.sqlEscapeString(gelenDrugPrice) + ");",Toast.LENGTH_LONG).show();
+                        myDB.execSQL(rs.getString(R.string.insert_header) + "('admin'," + DatabaseUtils.sqlEscapeString(gelenDrugName) + "," + DatabaseUtils.sqlEscapeString(gelenDrugSKT) + "," + DatabaseUtils.sqlEscapeString(gelenDrugPrice) + ");");
 
                         //get the "id" of the last inserted row, which is the query written in above line, look up!
                         Cursor resultSet = myDB.rawQuery(rs.getString(R.string.last_row_id_select), null);
                         resultSet.moveToFirst();
 
-                        mDrugList.add(gelenVeri); //listView'a ilac adini yazdik.
+                        mDrugList.add(" " + gelenDrugName + ", " + gelenDrugSKT + ", " + gelenDrugPrice + "₺"); //listView'a ilac adini yazdik.
                         mDrugList_id.add(resultSet.getString(0)); //id listemize ilacin id'sini yazdik
                         mArrayAdapter.notifyDataSetChanged();
                     }
