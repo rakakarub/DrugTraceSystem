@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
@@ -32,50 +31,44 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
     private static final String URL = "http://its.saglik.gov.tr/ControlProduct/CheckProductStatusService";
     private static final String SOAP_ACTION = "http://its.titck.gov.tr/net/check/productstatus/CheckProductStatusRequest";
     private static final String METHOD_NAME = "CheckProductStatusRequest";
-    LinearLayout llid;
-    String gelenVeri;
-    String hash, hashSon;
-    String barkodNumarası, seriNumarası;
-    SoapObject response;
     private ZXingScannerView mScannerView;
+    private String barkodNumarası, seriNumarası, gelenVeri, hash, hashSon;
+    private SoapObject response;
+    private LinearLayout llid;
+    private Switch sw;
 
     public static String sha1(String input) throws NoSuchAlgorithmException
     {
-        MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-        byte[] result = mDigest.digest(input.getBytes());
+        byte[] result = MessageDigest.getInstance("SHA1").digest(input.getBytes());
         StringBuilder sb = new StringBuilder();
-        for (byte aResult : result) {
+        for (byte aResult : result)
             sb.append(Integer.toString((aResult & 0xff) + 0x100, 16).substring(1));
-        }
         return sb.toString();
     }
 
     public void parser()
     {
         char ilkKarakter = gelenVeri.charAt(0);
-
+        int index = 19;
         barkodNumarası = gelenVeri.substring(3, 17);
         seriNumarası = "";
-        int index = 19;
+        hashSon = "";
+        hash = "";
 
         while (true) {
             if (gelenVeri.charAt(index) == ilkKarakter)
                 break;
-
             else
                 seriNumarası += gelenVeri.charAt(index);
-
-            index++;
+            ++index;
         }
 
-        hash = "";
         try {
             hash = sha1(barkodNumarası + seriNumarası);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
-        hashSon = "";
         try {
             hashSon = sha1(hash.substring(5, 21) + hash.substring(3, 12));
         } catch (NoSuchAlgorithmException e) {
@@ -88,22 +81,23 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
     {
         // remove title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(state);
         setContentView(R.layout.activity_qr__scanner);
 
+        //ActionBar varsa yok ettik
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
-            actionBar.hide(); // NullPointerException atabilir
+            actionBar.hide();
+
+        llid = (LinearLayout) findViewById(R.id.llid);
+        sw = (Switch) findViewById(R.id.switch1);
 
         mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
 
-        llid = (LinearLayout) findViewById(R.id.llid);
         llid.addView(mScannerView);
 
-        Switch sw = (Switch)findViewById(R.id.switch1);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -111,6 +105,7 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
                     // The toggle is enabled
                     mScannerView.stopCamera();
                     llid.removeAllViews();
+
                     mScannerView = new ZXingScannerView(QR_Scanner.this) {
                         @Override
                         public void onPreviewFrame(byte[] data, Camera camera) {
@@ -134,10 +129,8 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
                     llid.addView(mScannerView);
                     mScannerView.startCamera();
                 }
-
             }
         });
-
     }
 
     @Override
@@ -156,11 +149,7 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
     @Override
     public void handleResult(Result rawResult)
     {
-//        Log.v("solitaire", rawResult.getText()); // Prints scan results
-//        Log.v("solitaire", String.valueOf( rawResult.getText().length() ) ); // Prints scan results length
-        Log.v("solitaire", rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
-
-//         If you would like to resume scanning, call this method below:
+//         If you would like to resume scanning after all, call this method below:
 //        mScannerView.resumeCameraPreview(this);
 
         mScannerView.stopCamera();
@@ -171,7 +160,7 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
             this.finish();
         } else {
             //dogru sekilde aldik datayi, simdi biraz vibrasyon, bu benim misyon
-            ((Vibrator) this.getSystemService(VIBRATOR_SERVICE)).vibrate(70);
+            ((Vibrator) this.getSystemService(VIBRATOR_SERVICE)).vibrate(50);
 
             gelenVeri = rawResult.getText();
             parser();
@@ -231,12 +220,10 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
                     envelope.setOutputSoapObject(request);
 
                     HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
-                    androidHttpTransport.debug = true; // sonra kaldırılacak. debug icin var.
+                    androidHttpTransport.debug = true;
 
                     androidHttpTransport.call(SOAP_ACTION, envelope);
                     response = (SoapObject) envelope.bodyIn;
-
-
                 }
                 catch (Exception e)
                 {
@@ -249,12 +236,9 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
                     });*/
                     finish();
                 }
-
                 finally
                 {
-
                     Intent temp_intent = getIntent();
-
 
                     String query = temp_intent.getStringExtra("query");
                     if (query.compareTo("sorgu") == 0) {
@@ -264,7 +248,6 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
                         SBA.putExtra("price", String.valueOf(response.getProperty("PRICE") + " ₺"));
                         SBA.putExtra("SKT", String.valueOf(response.getProperty("PRODUCTEXPIREDATE")));
                         startActivity(SBA);
-
                     } else {
                         Intent data = new Intent();
                         data.putExtra("drugName", String.valueOf(response.getProperty("DRUGNAME")));
@@ -273,7 +256,6 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
                     QR_Scanner.this.finish();
                 }
             }
-
         }).start();
     }
 }

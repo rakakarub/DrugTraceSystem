@@ -23,7 +23,6 @@ public class eczaDolabi extends AppCompatActivity {
     ArrayList<String> mDrugList_id = new ArrayList<>();
     TextView ilac_ismi_header;
     TextView ilac_skt_header;
-
     String gelenVeri;
 
     @Override
@@ -32,12 +31,14 @@ public class eczaDolabi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ecza_dolabi);
 
+        //ActionBar varsa yok ettik
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
-            actionBar.hide(); // NullPointerException atabilir
+            actionBar.hide();
 
         ilac_ismi_header = (TextView) findViewById(R.id.ilac_ismi_header);
         ilac_skt_header = (TextView) findViewById(R.id.ilac_skt_header);
+        mainListView = (ListView) findViewById(R.id.dolap_list);
 
         SQLiteDatabase myDB = openOrCreateDatabase("DrugTraceSystem", MODE_PRIVATE, null);
         myDB.execSQL("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);");
@@ -46,19 +47,16 @@ public class eczaDolabi extends AppCompatActivity {
 
         while (resultSet.moveToNext()) {
             mDrugList.add(resultSet.getString(2)); // bu while loop, resultSet boş degilse komple tum itemlerini tarıyor, 2. field'ı (ilac_name) alıyor.
-            mDrugList_id.add(resultSet.getString(0)); // get id of the element, sonradan DB'den silebilmek icin kullanicaz.
+            mDrugList_id.add(resultSet.getString(0)); // get id of this loop item, sonradan DB'den silebilmek icin kullanicaz.
         }
 
-        mainListView = (ListView) findViewById(R.id.dolap_list);
         mArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mDrugList);
         mainListView.setAdapter(mArrayAdapter);
 
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object o = mainListView.getItemAtPosition(position);
-                String ilac_ismi = o.toString();
-
+                String ilac_ismi = mainListView.getItemAtPosition(position).toString();
                 ilac_ismi_header.setText(ilac_ismi);
                 ilac_skt_header.setText("Boş");
             }
@@ -67,26 +65,25 @@ public class eczaDolabi extends AppCompatActivity {
         mainListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //DB'den sil
+                //önce DB'den sil
                 SQLiteDatabase myDB = openOrCreateDatabase("DrugTraceSystem", MODE_PRIVATE, null);
                 myDB.execSQL("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);");
-                myDB.execSQL("DELETE FROM Users WHERE id=" + mDrugList_id.get(position) + ";");
+                myDB.execSQL("DELETE FROM Users WHERE id=" + mDrugList_id.get(position) + ";"); //id'sine gore bulup silicez. id primary key, so no duplicate ids exist.
 
-                //ListView'dan sil
+                //sonra ListView'dan sil
                 mDrugList.remove(position);
                 mArrayAdapter.notifyDataSetChanged();
 
-                //silindi diye Toast yolla
+                //silindi diye Toast yolla ekrana
                 Toast.makeText(getApplicationContext(), "İlaç silindi!", Toast.LENGTH_SHORT).show();
 
                 //biraz da titret
                 ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(100);
+
                 return false;
             }
         });
-
     }
-
 
     public void yeniIlac(View v)
     {
@@ -98,31 +95,30 @@ public class eczaDolabi extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == 1)
+        switch (requestCode) //switch daha hizliymis bu durum icin.
         {
-            if (resultCode == RESULT_OK)
-            {
-                if(data.hasExtra("drugName"))
+            case 1:
+                if (resultCode == RESULT_OK)
                 {
-                    gelenVeri = data.getStringExtra("drugName");
+                    if (data.hasExtra("drugName")) {
+                        gelenVeri = data.getStringExtra("drugName");
 
-                    SQLiteDatabase myDB = eczaDolabi.this.openOrCreateDatabase("DrugTraceSystem", MODE_PRIVATE, null);
-                    myDB.execSQL("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);");
-                    myDB.execSQL("INSERT INTO Users(user,ilac_ismi,ilac_skt,ilac_fiyat) VALUES('admin','" + gelenVeri + "','test_skt','test_fiyat');");
+                        SQLiteDatabase myDB = eczaDolabi.this.openOrCreateDatabase("DrugTraceSystem", MODE_PRIVATE, null);
+                        myDB.execSQL("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);");
+                        myDB.execSQL("INSERT INTO Users(user,ilac_ismi,ilac_skt,ilac_fiyat) VALUES('admin','" + gelenVeri + "','test_skt','test_fiyat');");
 
-                    //get the id column of the last row, which is the upper query, look up!
-                    Cursor resultSet2 = myDB.rawQuery("Select id from Users", null);
-                    resultSet2.moveToLast();
+                        //get the "id" of the last inserted row, which is the query written in above line, look up!
+                        Cursor resultSet = myDB.rawQuery("select seq from sqlite_sequence where name='Users'", null);
+                        resultSet.moveToFirst();
 
-                    mDrugList.add(gelenVeri);
-                    mDrugList_id.add(resultSet2.getString(0));
-                    mArrayAdapter.notifyDataSetChanged();
+                        mDrugList.add(gelenVeri); //listView'a ilac adini yazdik.
+                        mDrugList_id.add(resultSet.getString(0)); //id listemize ilacin id'sini yazdik
+                        mArrayAdapter.notifyDataSetChanged();
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Lütfen QR Kod okutunuz!", Toast.LENGTH_LONG).show();
                 }
-            }
-            else if(resultCode == RESULT_CANCELED)
-            {
-                Toast.makeText(this, "Lütfen QR Kod okutunuz!", Toast.LENGTH_LONG).show();
-            }
+                break;
         }
     }
 }

@@ -33,18 +33,18 @@ public class ilacTest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_ilac_test);
 
+        //ActionBar varsa yok ettik
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.hide();
 
-        Intent data = getIntent();
-
         ilacIsmi = (TextView) findViewById(R.id.ilacIsmi);
         fiyat = (TextView) findViewById(R.id.fiyat);
         skt = (TextView) findViewById(R.id.skt);
+
+        Intent data = getIntent();
 
         ilacIsmi.setText("İsim: " + data.getStringExtra("drugName"));
         fiyat.setText("Fiyat: " + data.getStringExtra("price"));

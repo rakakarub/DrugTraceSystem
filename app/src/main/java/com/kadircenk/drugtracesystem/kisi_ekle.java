@@ -1,12 +1,9 @@
 package com.kadircenk.drugtracesystem;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 public class kisi_ekle extends AppCompatActivity {
@@ -15,6 +12,11 @@ public class kisi_ekle extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kisi_ekle);
+
+        //ActionBar varsa yok ettik
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.hide();
     }
 
     //EditText name = (EditText) findViewById(R.id.isim);

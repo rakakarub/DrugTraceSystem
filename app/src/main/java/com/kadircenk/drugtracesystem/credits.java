@@ -11,8 +11,9 @@ public class credits extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits);
 
+        //ActionBar varsa yok ettik
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
-            actionBar.hide(); // NullPointerException atabilir
+            actionBar.hide();
     }
 }
