@@ -5,27 +5,37 @@
     android:layout_height="match_parent"
     android:background="@color/arkaPlanColor"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context="com.kadircenk.drugtracesystem.kisiler">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.1">
+
+        <ListView
+            android:id="@+id/people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:animateLayoutChanges="true" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.9"
+        android:gravity="center_horizontal"
         >
 
         <Button
-            android:layout_width="match_parent"
+            android:text="@string/kisi_ekle"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/buttonshape"
-            android:onClick="ekle"
-            android:text="@string/kisi_ekle"
             android:textSize="16sp"
+            android:onClick="ekle"
             />
     </LinearLayout>
 
