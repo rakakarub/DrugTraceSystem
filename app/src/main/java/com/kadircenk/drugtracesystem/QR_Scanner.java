@@ -3,6 +3,7 @@ package com.kadircenk.drugtracesystem;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -114,7 +115,7 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
                         @Override
                         public void onPreviewFrame(byte[] data, Camera camera) {
                             Camera.Parameters params = camera.getParameters();
-                            params.setColorEffect("negative");
+                            params.setColorEffect(Camera.Parameters.EFFECT_NEGATIVE); // negatif effect icin
                             camera.setParameters(params);
                             super.onPreviewFrame(data, camera);
                         }
@@ -164,20 +165,18 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
 
         mScannerView.stopCamera();
 
-        if(rawResult.getBarcodeFormat().toString().equalsIgnoreCase("DATA_MATRIX") == false)
+        if (!rawResult.getBarcodeFormat().toString().equalsIgnoreCase("DATA_MATRIX"))
         {
             setResult(RESULT_CANCELED,null);
             this.finish();
-        }
+        } else {
+            //dogru sekilde aldik datayi, simdi biraz vibrasyon, bu benim misyon
+            ((Vibrator) this.getSystemService(VIBRATOR_SERVICE)).vibrate(70);
 
-        else
-        {
             gelenVeri = rawResult.getText();
             parser();
             sorgu();
         }
-
-
     }
 
     public void sorgu()

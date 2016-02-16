@@ -10,23 +10,68 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.7"
-        android:gravity="center_vertical"
+        android:layout_weight="0.8"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/ilac_ismi_header"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="İlaç İsmi :"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="40dp"
+                android:paddingTop="10dp"
+                android:text="İlaç İsmi: "
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ilac_ismi_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isScrollContainer="true"
+                android:text="Detayları görmek için listeden ilaç seçiniz..."
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="İlaç SKT: "
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ilac_skt_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detayları görmek için listeden ilaç seçiniz..."
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.95">
 
         <TextView
-            android:id="@+id/ilac_skt_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="S.K.T :"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:text="Ecza Dolabım"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -42,15 +87,15 @@
             android:id="@+id/dolap_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-        </ListView>
+            android:layout_weight="1"
+            android:animateLayoutChanges="true" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.9"
+        android:layout_weight="0.95"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -58,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/buttonshape"
-            android:onClick="yeniİlaç"
+            android:onClick="yeniIlac"
             android:text="Yeni İlaç Ekle" />
 
     </LinearLayout>
