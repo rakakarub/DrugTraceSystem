@@ -25,9 +25,7 @@ public class kisi_ekle extends AppCompatActivity {
     //note that kaydet is not enabled at the moment
 
     public void kaydet(View view) {
-
-        Toast.makeText(this,"Kişi Kaydedildi",Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(this, R.string.kisi_kaydedildi, Toast.LENGTH_SHORT).show();
         finish();
     }
 }

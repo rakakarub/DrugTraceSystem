@@ -10,32 +10,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="0.1">
+        android:layout_weight="0.1"
+        android:orientation="vertical">
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/isim"
-            android:hint="İsim"/>
-
-        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:hint="@string/ad"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
             android:id="@+id/soyisim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/soyad"
             android:paddingBottom="10sp"
             android:paddingTop="10sp"
-            android:hint="Soy isim"/>
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
+            android:id="@+id/cinsiyet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/cinsiyet"
-            android:hint="Cinsiyet"/>
-
+            android:hint="@string/cinsiyet"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>
 
@@ -46,14 +45,13 @@
         android:background="@color/arkaPlanColor">
 
         <Button
-            android:text="Kaydet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/buttonshape"
             android:enabled="false"
-            android:onClick="kaydet"/>
+            android:onClick="kaydet"
+            android:text="@string/kaydet" />
 
     </LinearLayout>
-
 
 </LinearLayout>

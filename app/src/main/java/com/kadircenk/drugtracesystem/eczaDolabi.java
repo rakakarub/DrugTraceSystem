@@ -1,6 +1,7 @@
 package com.kadircenk.drugtracesystem;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -103,12 +104,13 @@ public class eczaDolabi extends AppCompatActivity {
                     if (data.hasExtra("drugName")) {
                         gelenVeri = data.getStringExtra("drugName");
 
-                        SQLiteDatabase myDB = eczaDolabi.this.openOrCreateDatabase("DrugTraceSystem", MODE_PRIVATE, null);
-                        myDB.execSQL("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);");
-                        myDB.execSQL("INSERT INTO Users(user,ilac_ismi,ilac_skt,ilac_fiyat) VALUES('admin','" + gelenVeri + "','test_skt','test_fiyat');");
+                        Resources rs = getResources();
+                        SQLiteDatabase myDB = eczaDolabi.this.openOrCreateDatabase(rs.getString(R.string.db_name), MODE_PRIVATE, null);
+                        myDB.execSQL(rs.getString(R.string.create_table_query));
+                        myDB.execSQL(rs.getString(R.string.insert_header) + "('admin','" + gelenVeri + "','test_skt','test_fiyat');");
 
                         //get the "id" of the last inserted row, which is the query written in above line, look up!
-                        Cursor resultSet = myDB.rawQuery("select seq from sqlite_sequence where name='Users'", null);
+                        Cursor resultSet = myDB.rawQuery(rs.getString(R.string.last_row_id_select), null);
                         resultSet.moveToFirst();
 
                         mDrugList.add(gelenVeri); //listView'a ilac adini yazdik.
@@ -116,7 +118,7 @@ public class eczaDolabi extends AppCompatActivity {
                         mArrayAdapter.notifyDataSetChanged();
                     }
                 } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "Lütfen QR Kod okutunuz!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.qr_kod_okutunuz, Toast.LENGTH_LONG).show();
                 }
                 break;
         }

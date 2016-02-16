@@ -44,7 +44,7 @@
                         android:id="@+id/kes_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="KSC Software Team"
+                        android:text="@string/ksc_software_team"
                         android:textSize="26sp"
                         android:textStyle="bold" />
 

@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="40dp"
                 android:paddingTop="10dp"
-                android:text="İlaç İsmi: "
+                android:text="@string/ilac_ismi"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isScrollContainer="true"
-                android:text="Detayları görmek için listeden ilaç seçiniz..."
+                android:text="@string/detay_gormek_icin_ilac_sec"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="İlaç SKT: "
+                android:text="@string/ilac_skt"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
                 android:id="@+id/ilac_skt_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Detayları görmek için listeden ilaç seçiniz..."
+                android:text="@string/detay_gormek_icin_ilac_sec"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -71,7 +71,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingBottom="15dp"
-            android:text="Ecza Dolabım"
+            android:text="@string/ecza_dolabim"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -86,7 +86,7 @@
         <ListView
             android:id="@+id/dolap_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:animateLayoutChanges="true" />
 
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/buttonshape"
             android:onClick="yeniIlac"
-            android:text="Yeni İlaç Ekle" />
+            android:text="@string/yeni_ilac_ekle" />
 
     </LinearLayout>
 

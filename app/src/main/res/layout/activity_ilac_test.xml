@@ -29,7 +29,7 @@
                 android:id="@+id/ilacIsmi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="İlaç ismi bekleniyor..."
+                android:text="@string/ilac_ismi_bekleniyor"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -42,7 +42,7 @@
                 android:id="@+id/fiyat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="İlaç fiyatı bekleniyor..."
+                android:text="@string/ilac_fiyat_bekleniyor"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -55,7 +55,7 @@
                 android:id="@+id/skt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="İlaç son kullanım tarihi bekleniyor..."
+                android:text="@string/ilac_skt_bekleniyor"
                 android:textSize="18sp" />
 
         </LinearLayout>

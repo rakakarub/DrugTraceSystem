@@ -20,12 +20,12 @@
         >
 
         <Button
-            android:text="Kişi Ekle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/buttonshape"
-            android:textSize="16sp"
             android:onClick="ekle"
+            android:text="@string/kisi_ekle"
+            android:textSize="16sp"
             />
     </LinearLayout>
 

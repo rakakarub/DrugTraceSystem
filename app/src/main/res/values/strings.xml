@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">İlaç Takip Sistemi</string>
     <string name="ecza_dolabi">Ecza Dolabı</string>
+    <string name="ecza_dolabim">Ecza Dolabım</string>
     <string name="kisiler">Kişiler</string>
     <string name="ilac_sorgulama">İlaç Sorgulama</string>
+    <string name="ilac_ismi">İlaç İsmi:</string>
+    <string name="ilac_skt">İlaç SKT:</string>
+    <string name="detay_gormek_icin_ilac_sec">Detayları görmek için listeden ilaç seçiniz...</string>
+    <string name="yeni_ilac_ekle">Yeni İlaç Ekle</string>
     <string name="gelistiriciler">Geliştiriciler</string>
     <string name="ilac_ismi_bekleniyor">İlaç ismi bekleniyor...</string>
-    <string name="ilac_fiyati_bekleniyor">İlaç fiyatı bekleniyor...</string>
+    <string name="ilac_fiyat_bekleniyor">İlaç fiyatı bekleniyor...</string>
     <string name="ilac_skt_bekleniyor">İlaç SKT bekleniyor...</string>
     <string name="ksc_software_team">KSC Software Team</string>
     <string name="bugra_kaan_demirdover">Buğra Kaan Demirdöver</string>
@@ -18,5 +23,21 @@
     <string name="yapim_asamasinda">Yapım aşamasında!</string>
     <string name="no_internet">İnternete bağlı değilsiniz!</string>
     <string name="surprise">xDxDxD</string>
+    <string name="db_name">DrugTraceSystem</string>
+    <string name="create_table_query">CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);</string>
+    <string name="insert_header">INSERT INTO Users(user,ilac_ismi,ilac_skt,ilac_fiyat) VALUES</string>
+    <string name="last_row_id_select">select seq from sqlite_sequence where name=\'Users\'</string>
+    <string name="qr_kod_okutunuz">Lütfen QR Kod okutunuz!</string>
+    <string name="kaydet">Kaydet</string>
+    <string name="siyah_qr_code">Siyah zemin QR Code</string>
+    <string name="kisi_kaydedildi">Kişi kaydedildi</string>
+    <string name="ilac_check_namespace">http://its.titck.gov.tr/net/check/productstatus/</string>
+    <string name="ilac_check_url">http://its.saglik.gov.tr/ControlProduct/CheckProductStatusService</string>
+    <string name="ilac_check_soapaction">http://its.titck.gov.tr/net/check/productstatus/CheckProductStatusRequest</string>
+    <string name="ilac_check_methodname">CheckProductStatusRequest</string>
+    <string name="kisi_ekle">Kişi Ekle</string>
+    <string name="ad">Ad</string>
+    <string name="soyad">Soyad</string>
+    <string name="cinsiyet">Cinsiyet</string>
 
 </resources>

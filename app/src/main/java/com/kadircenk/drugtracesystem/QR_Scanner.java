@@ -1,6 +1,7 @@
 package com.kadircenk.drugtracesystem;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -27,10 +28,10 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.ResultHandler
 {
-    private static final String NAMESPACE = "http://its.titck.gov.tr/net/check/productstatus/";
-    private static final String URL = "http://its.saglik.gov.tr/ControlProduct/CheckProductStatusService";
-    private static final String SOAP_ACTION = "http://its.titck.gov.tr/net/check/productstatus/CheckProductStatusRequest";
-    private static final String METHOD_NAME = "CheckProductStatusRequest";
+    private String NAMESPACE;
+    private String URL;
+    private String SOAP_ACTION;
+    private String METHOD_NAME;
     private ZXingScannerView mScannerView;
     private String barkodNumarası, seriNumarası, gelenVeri, hash, hashSon;
     private SoapObject response;
@@ -90,6 +91,12 @@ public class QR_Scanner extends AppCompatActivity implements ZXingScannerView.Re
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.hide();
+
+        Resources rs = getResources();
+        NAMESPACE = rs.getString(R.string.ilac_check_namespace);
+        URL = rs.getString(R.string.ilac_check_url);
+        SOAP_ACTION = rs.getString(R.string.ilac_check_soapaction);
+        METHOD_NAME = rs.getString(R.string.ilac_check_methodname);
 
         llid = (LinearLayout) findViewById(R.id.llid);
         sw = (Switch) findViewById(R.id.switch1);
