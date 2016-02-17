@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
@@ -96,9 +98,13 @@ public class eczaDolabi extends AppCompatActivity {
 
     public void yeniIlac(View v)
     {
-        Intent intent = new Intent(this, QR_Scanner.class);
-        intent.putExtra("query", "ecza_dolabi");
-        startActivityForResult(intent, 1);
+        if (!isConnected()) {
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
+        } else { // internet varsa devam et
+            Intent intent = new Intent(this, QR_Scanner.class);
+            intent.putExtra("query", "ecza_dolabi");
+            startActivityForResult(intent, 1);
+        }
     }
 
     @Override
@@ -136,5 +142,10 @@ public class eczaDolabi extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    public boolean isConnected() {
+        NetworkInfo networkInfo = ((ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
