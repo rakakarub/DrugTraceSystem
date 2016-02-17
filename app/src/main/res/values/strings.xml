@@ -28,7 +28,7 @@
     <string name="create_table_query">CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);</string>
     <string name="insert_header">INSERT INTO Users(user,ilac_ismi,ilac_skt,ilac_fiyat) VALUES</string>
     <string name="last_row_id_select">select seq from sqlite_sequence where name=\'Users\'</string>
-    <string name="qr_kod_okutunuz">Lütfen QR Kod okutunuz!</string>
+    <string name="sadece_karekod_okutunuz">Hata! Lütfen sadece Karekod okutunuz.</string>
     <string name="kaydet">Kaydet</string>
     <string name="siyah_qr_code">Siyah zemin QR Code</string>
     <string name="kisi_kaydedildi">Kişi kaydedildi</string>

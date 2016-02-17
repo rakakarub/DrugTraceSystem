@@ -28,6 +28,16 @@ public class AnaSayfa extends AppCompatActivity {
                 startActivity(new Intent(AnaSayfa.this, eczaDolabi.class)); // yeni activity actik
             }
         });
+//**************************************
+//    SQLite kullanma taslagi asagida:
+//        DBHelper myDB;
+//        myDB=new DBHelper(this); //burada hep "this" yollayalim. context fark etmiyor nerede olursak olalım.
+//        int asd = myDB.insertData("admin", "ilacIsmi1", "ilacSKT1", "ilacFiyat1");
+//        Cursor cs = myDB.getData(asd);
+//        cs.moveToFirst();
+//        Toast.makeText(this, cs.getString(0)+cs.getString(1)+cs.getString(2)+cs.getString(3)+cs.getString(4), Toast.LENGTH_SHORT).show();
+//        myDB.deleteData(asd);
+//**************************************
     }
 
     public void kisiler(View view) {

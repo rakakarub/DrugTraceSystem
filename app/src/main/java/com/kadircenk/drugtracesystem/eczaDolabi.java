@@ -1,10 +1,7 @@
 package com.kadircenk.drugtracesystem;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -24,13 +21,13 @@ public class eczaDolabi extends AppCompatActivity {
     ListView mainListView;
     ArrayAdapter<String> mArrayAdapter;
     ArrayList<String> mDrugList = new ArrayList<>();
-    ArrayList<String> mDrugList_id = new ArrayList<>();
+    ArrayList<Integer> mDrugList_id = new ArrayList<>(); //database entrylerinin idlerini tutacak, daha sonra id kullanarak bu entryleri silebilmemiz icin
     TextView ilac_ismi_header, ilac_skt_header, ilac_fiyat_header;
     String gelenDrugName, gelenDrugSKT, gelenDrugPrice;
+    DBHelper myDB;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ecza_dolabi);
 
@@ -44,14 +41,12 @@ public class eczaDolabi extends AppCompatActivity {
         ilac_fiyat_header = (TextView) findViewById(R.id.ilac_fiyat_header);
         mainListView = (ListView) findViewById(R.id.dolap_list);
 
-        SQLiteDatabase myDB = openOrCreateDatabase("DrugTraceSystem", MODE_PRIVATE, null);
-        myDB.execSQL("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);");
-
-        Cursor resultSet = myDB.rawQuery("Select * from Users", null);
+        myDB = new DBHelper(this);
+        Cursor resultSet = myDB.getAllData();
 
         while (resultSet.moveToNext()) {
             mDrugList.add(" " + resultSet.getString(2) + ", " + resultSet.getString(3) + ", " + resultSet.getString(4) + "₺"); // bu while loop, resultSet boş degilse komple tum itemlerini tarıyor, 2. field'ı (ilac_name) alıyor.
-            mDrugList_id.add(resultSet.getString(0)); // get id of this loop item, sonradan DB'den silebilmek icin kullanicaz.
+            mDrugList_id.add(resultSet.getInt(0)); // get id of this loop item, sonradan DB'den silebilmek icin kullanicaz.
         }
 
         mArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mDrugList);
@@ -65,8 +60,6 @@ public class eczaDolabi extends AppCompatActivity {
                 String ilac_skt = listItemdeYazanlar[1];
                 String ilac_fiyat = listItemdeYazanlar[2];
 
-//                Toast.makeText(getApplicationContext(),mainListView.getItemAtPosition(position).toString().split(",")[0],Toast.LENGTH_LONG).show();
-
                 ilac_ismi_header.setText(ilac_ismi);
                 ilac_skt_header.setText(ilac_skt);
                 ilac_fiyat_header.setText(ilac_fiyat);
@@ -77,9 +70,7 @@ public class eczaDolabi extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //önce DB'den sil
-                SQLiteDatabase myDB = openOrCreateDatabase("DrugTraceSystem", MODE_PRIVATE, null);
-                myDB.execSQL("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT,user VARCHAR,ilac_ismi VARCHAR,ilac_skt VARCHAR,ilac_fiyat VARCHAR);");
-                myDB.execSQL("DELETE FROM Users WHERE id=" + mDrugList_id.get(position) + ";"); //id'sine gore bulup silicez. id primary key, so no duplicate ids exist.
+                myDB.deleteData(mDrugList_id.get(position)); //database id field 1'den başlıyor. listView'da ise 0'dan başlıyor. +1 o yüzden.
 
                 //sonra ListView'dan sil
                 mDrugList.remove(position);
@@ -96,8 +87,7 @@ public class eczaDolabi extends AppCompatActivity {
         });
     }
 
-    public void yeniIlac(View v)
-    {
+    public void yeniIlac(View v) {
         if (!isConnected()) {
             Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
         } else { // internet varsa devam et
@@ -108,13 +98,11 @@ public class eczaDolabi extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) //switch daha hizliymis bu durum icin.
         {
             case 1:
-                if (resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
                     if (data.hasExtra("drugName")) {
                         gelenDrugName = data.getStringExtra("drugName");
                         gelenDrugSKT = data.getStringExtra("drugSKT");
@@ -122,23 +110,27 @@ public class eczaDolabi extends AppCompatActivity {
 
 //                        Toast.makeText(getApplicationContext(), gelenDrugName+gelenDrugSKT+gelenDrugPrice, Toast.LENGTH_LONG).show();
 
-                        Resources rs = getResources();
-                        SQLiteDatabase myDB = eczaDolabi.this.openOrCreateDatabase(rs.getString(R.string.db_name), MODE_PRIVATE, null);
-                        myDB.execSQL(rs.getString(R.string.create_table_query));
+//                        Resources rs = getResources();
+//                        SQLiteDatabase myDB = eczaDolabi.this.openOrCreateDatabase(rs.getString(R.string.db_name), MODE_PRIVATE, null);
+//
+//                        myDB.execSQL(rs.getString(R.string.create_table_query));
+//
+////                        Toast.makeText(getApplicationContext(), rs.getString(R.string.insert_header) + "('admin'," + DatabaseUtils.sqlEscapeString(gelenDrugName) + "," + DatabaseUtils.sqlEscapeString(gelenDrugSKT) + "," + DatabaseUtils.sqlEscapeString(gelenDrugPrice) + ");",Toast.LENGTH_LONG).show();
+//                        myDB.execSQL(rs.getString(R.string.insert_header) + "('admin'," + DatabaseUtils.sqlEscapeString(gelenDrugName) + "," + DatabaseUtils.sqlEscapeString(gelenDrugSKT) + "," + DatabaseUtils.sqlEscapeString(gelenDrugPrice) + ");");
+//
+//                        //get the "id" of the last inserted row, which is the query written in above line, look up!
+//                        Cursor resultSet = myDB.rawQuery(rs.getString(R.string.last_row_id_select), null);
 
-//                        Toast.makeText(getApplicationContext(), rs.getString(R.string.insert_header) + "('admin'," + DatabaseUtils.sqlEscapeString(gelenDrugName) + "," + DatabaseUtils.sqlEscapeString(gelenDrugSKT) + "," + DatabaseUtils.sqlEscapeString(gelenDrugPrice) + ");",Toast.LENGTH_LONG).show();
-                        myDB.execSQL(rs.getString(R.string.insert_header) + "('admin'," + DatabaseUtils.sqlEscapeString(gelenDrugName) + "," + DatabaseUtils.sqlEscapeString(gelenDrugSKT) + "," + DatabaseUtils.sqlEscapeString(gelenDrugPrice) + ");");
-
-                        //get the "id" of the last inserted row, which is the query written in above line, look up!
-                        Cursor resultSet = myDB.rawQuery(rs.getString(R.string.last_row_id_select), null);
-                        resultSet.moveToFirst();
+                        //yukarıda yorumdakiler eski database sistemi. alttakiler yeni sistemimiz. kca
+                        int last_inserted_id = myDB.insertData("admin", gelenDrugName, gelenDrugSKT, gelenDrugPrice);
 
                         mDrugList.add(" " + gelenDrugName + ", " + gelenDrugSKT + ", " + gelenDrugPrice + "₺"); //listView'a ilac adini yazdik.
-                        mDrugList_id.add(resultSet.getString(0)); //id listemize ilacin id'sini yazdik
+                        mDrugList_id.add(last_inserted_id); //id listemize ilacin id'sini yazdik
                         mArrayAdapter.notifyDataSetChanged();
                     }
                 } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, R.string.qr_kod_okutunuz, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.sadece_karekod_okutunuz, Toast.LENGTH_LONG).show();
+                    ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(100);
                 }
                 break;
         }
