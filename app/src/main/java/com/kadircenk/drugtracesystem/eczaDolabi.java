@@ -18,6 +18,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class eczaDolabi extends AppCompatActivity {
+
+    static ArrayList<String> mDrugnameList = new ArrayList<>();
     ListView mainListView;
     ArrayAdapter<String> mArrayAdapter;
     ArrayList<String> mDrugList = new ArrayList<>();
@@ -46,6 +48,7 @@ public class eczaDolabi extends AppCompatActivity {
 
         while (resultSet.moveToNext()) {
             mDrugList.add(" " + resultSet.getString(2) + ", " + resultSet.getString(3) + ", " + resultSet.getString(4) + "₺"); // bu while loop, resultSet boş degilse komple tum itemlerini tarıyor, 2. field'ı (ilac_name) alıyor.
+            mDrugnameList.add(resultSet.getString(2));
             mDrugList_id.add(resultSet.getInt(0)); // get id of this loop item, sonradan DB'den silebilmek icin kullanicaz.
         }
 
@@ -73,6 +76,7 @@ public class eczaDolabi extends AppCompatActivity {
                 myDB.deleteData(mDrugList_id.get(position)); //database id field 1'den başlıyor. listView'da ise 0'dan başlıyor. +1 o yüzden.
 
                 //sonra ListView'dan sil
+                mDrugnameList.remove(position);
                 mDrugList.remove(position);
                 mArrayAdapter.notifyDataSetChanged();
 
@@ -123,7 +127,7 @@ public class eczaDolabi extends AppCompatActivity {
 
                         //yukarıda yorumdakiler eski database sistemi. alttakiler yeni sistemimiz. kca
                         int last_inserted_id = myDB.insertData("admin", gelenDrugName, gelenDrugSKT, gelenDrugPrice);
-
+                        mDrugnameList.add(gelenDrugName);
                         mDrugList.add(" " + gelenDrugName + ", " + gelenDrugSKT + ", " + gelenDrugPrice + "₺"); //listView'a ilac adini yazdik.
                         mDrugList_id.add(last_inserted_id); //id listemize ilacin id'sini yazdik
                         mArrayAdapter.notifyDataSetChanged();
@@ -139,5 +143,13 @@ public class eczaDolabi extends AppCompatActivity {
     public boolean isConnected() {
         NetworkInfo networkInfo = ((ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public void drugsearch(View v) {
+
+        Intent intent = new Intent(this, Ilac_arama.class);
+
+        startActivity(intent);
+
     }
 }

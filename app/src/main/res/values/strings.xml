@@ -9,6 +9,8 @@
     <string name="ilac_fiyat">İlaç Fiyat:</string>
     <string name="detay_gormek_icin_ilac_sec">Detayları görmek için listeden ilaç seçiniz...</string>
     <string name="yeni_ilac_ekle">Yeni İlaç Ekle</string>
+    <string name="search_drug">İlaç Arama</string>
+    <string name="search_result">Arama Sonucu</string>
     <string name="gelistiriciler">Geliştiriciler</string>
     <string name="ilac_ismi_bekleniyor">İlaç ismi bekleniyor...</string>
     <string name="ilac_fiyat_bekleniyor">İlaç fiyatı bekleniyor...</string>
@@ -20,6 +22,8 @@
     <string name="kadir_cenk_alpay">Kadir Cenk Alpay</string>
     <string name="mustafa_agriman">Mustafa Ağrıman</string>
     <string name="onur_henden">Onur Henden</string>
+    <string name="mustafa_cil">Mustafa Çil'e Teşekkürler</string>
+    <string name="idea_dad">Ve</string>
     <string name="kesici_pop_up">Kesiciler!</string>
     <string name="yapim_asamasinda">Yapım aşamasında!</string>
     <string name="no_internet">İnternete bağlı değilsiniz!</string>
