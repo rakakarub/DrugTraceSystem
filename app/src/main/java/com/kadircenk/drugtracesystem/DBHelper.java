@@ -71,13 +71,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 "create table "
                         + TABLE_NAME_USESDRUG +
                         "("
-                        + TABLE_USESDRUG_USERID + " integer default 0 on delete set default,"
-                        + TABLE_USESDRUG_DRUGID + " integer on delete cascade,"
+                        + TABLE_USESDRUG_USERID + " integer default 0,"
+                        + TABLE_USESDRUG_DRUGID + " integer,"
                         + "primary key (" + TABLE_USESDRUG_USERID + ", " + TABLE_USESDRUG_DRUGID + ") "
                         + "foreign key (" + TABLE_USESDRUG_USERID + ") "
-                        + "references " + TABLE_NAME_USER + "(" + TABLE_USER_ID + ") "
+                        + "references " + TABLE_NAME_USER + "(" + TABLE_USER_ID + ") on delete set default "
                         + "foreign key (" + TABLE_USESDRUG_DRUGID + ") "
-                        + "references " + TABLE_NAME_DRUG + "(" + TABLE_DRUG_ID + ") " + ")"
+                        + "references " + TABLE_NAME_DRUG + "(" + TABLE_DRUG_ID + ") on delete cascade " + ")"
         );
     }
 

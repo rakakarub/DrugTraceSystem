@@ -44,11 +44,11 @@ public class eczaDolabi extends AppCompatActivity {
         mainListView = (ListView) findViewById(R.id.dolap_list);
 
         myDB = new DBHelper(this);
-        Cursor resultSet = myDB.getAllData();
+        Cursor resultSet = myDB.getAllDrugs();
 
         while (resultSet.moveToNext()) {
-            mDrugList.add(" " + resultSet.getString(2) + ", " + resultSet.getString(3) + ", " + resultSet.getString(4) + "₺"); // bu while loop, resultSet boş degilse komple tum itemlerini tarıyor, 2. field'ı (ilac_name) alıyor.
-            mDrugnameList.add(resultSet.getString(2));
+            mDrugList.add(" " + resultSet.getString(1) + ", " + resultSet.getString(2) + ", " + Float.toString(resultSet.getFloat(3)) + "₺"); // bu while loop, resultSet boş degilse komple tum itemlerini tarıyor, 2. field'ı (ilac_name) alıyor.
+            mDrugnameList.add(resultSet.getString(1));
             mDrugList_id.add(resultSet.getInt(0)); // get id of this loop item, sonradan DB'den silebilmek icin kullanicaz.
         }
 
@@ -73,7 +73,7 @@ public class eczaDolabi extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //önce DB'den sil
-                myDB.deleteData(mDrugList_id.get(position)); //database id field 1'den başlıyor. listView'da ise 0'dan başlıyor. +1 o yüzden.
+                myDB.deleteDrug(mDrugList_id.get(position));
 
                 //sonra ListView'dan sil
                 mDrugnameList.remove(position);
@@ -126,7 +126,7 @@ public class eczaDolabi extends AppCompatActivity {
 //                        Cursor resultSet = myDB.rawQuery(rs.getString(R.string.last_row_id_select), null);
 
                         //yukarıda yorumdakiler eski database sistemi. alttakiler yeni sistemimiz. kca
-                        int last_inserted_id = myDB.insertData("admin", gelenDrugName, gelenDrugSKT, gelenDrugPrice);
+                        int last_inserted_id = myDB.insertDrug(gelenDrugName, gelenDrugSKT, Float.parseFloat(gelenDrugPrice));
                         mDrugnameList.add(gelenDrugName);
                         mDrugList.add(" " + gelenDrugName + ", " + gelenDrugSKT + ", " + gelenDrugPrice + "₺"); //listView'a ilac adini yazdik.
                         mDrugList_id.add(last_inserted_id); //id listemize ilacin id'sini yazdik

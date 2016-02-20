@@ -1,8 +1,5 @@
 package com.kadircenk.drugtracesystem;
 
-/**
- * Created by kadircenk on 19.02.2016.
- */
 public class Drug {
     private String name;
     private String skt;
@@ -31,6 +28,5 @@ public class Drug {
     public void setPrice(String price) {
         this.price = price;
     }
-
 
 }
