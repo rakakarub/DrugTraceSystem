@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.nio.ByteBuffer;
+
 public class kisi_ekle extends AppCompatActivity {
 
     EditText name, surname, age, gender;
@@ -48,6 +50,8 @@ public class kisi_ekle extends AppCompatActivity {
         gender = (EditText) findViewById(R.id.cinsiyet);
         saveButton = (Button) findViewById(R.id.kaydet);
         imageButton = (ImageButton) findViewById(R.id.imageButton);
+
+        myDB = new DBHelper(this);
 
         name.addTextChangedListener(new TextWatcher() { //Bu text e yazılanları kontrol ediyor
             @Override
@@ -166,7 +170,7 @@ public class kisi_ekle extends AppCompatActivity {
 
         //database e yazıyor
         Bitmap imageBitmap = ((BitmapDrawable) imageButton.getDrawable()).getBitmap();
-        userName = name.getText().toString();
+        userName = name.getText().toString()+ " " + surname.getText().toString();
         if(age.getText().toString().trim().length() > 0)
             userAge =  Integer.parseInt(age.getText().toString());
         userGender = gender.getText().toString();
@@ -174,15 +178,21 @@ public class kisi_ekle extends AppCompatActivity {
         System.out.println(userAge);
         System.out.println(userGender);
 
-        //int last_inserted_id = myDB.insertUser(userName, userAge, userGender, imageBitmap); //olmuyor laaaaan
+        //Convert Bitmap to byte[] to send kisiler activity
+        int pic_bytes = imageBitmap.getByteCount();
+        ByteBuffer buffer = ByteBuffer.allocate(pic_bytes); //Create a new buffer
+        imageBitmap.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
+        byte[] pic_array = buffer.array(); //Get the underlying array containing the data.
+
+        int last_inserted_id = myDB.insertUser(userName, userAge, userGender, imageBitmap); //olmuyor laaaaan
 
         //parent intent e bilgileri atıyor
         Intent data = new Intent();
         data.putExtra("name",userName);
         data.putExtra("gender",userGender);
         data.putExtra("age",userAge);
-        data.putExtra("pic",imageBitmap);
-        //data.putExtra("id",last_inserted_id);
+        data.putExtra("pic",pic_array);
+        data.putExtra("id",last_inserted_id);
         setResult(RESULT_OK, data);
 
         //kaydedildi mesajı
