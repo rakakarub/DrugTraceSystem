@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -21,20 +22,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import static java.lang.System.*;
-
 public class kisi_ekle extends AppCompatActivity {
 
-    EditText name;
+    EditText name, surname, age, gender;
     Button saveButton;
     ImageButton imageButton;
     private static final int CAM_REQUEST = 1313;
+    String userName,userGender;
+    Integer userAge;
+    DBHelper myDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +43,11 @@ public class kisi_ekle extends AppCompatActivity {
             actionBar.hide();
 
         name = (EditText) findViewById(R.id.isim);
+        surname = (EditText) findViewById(R.id.soyisim);
+        age = (EditText) findViewById(R.id.yas);
+        gender = (EditText) findViewById(R.id.cinsiyet);
         saveButton = (Button) findViewById(R.id.kaydet);
         imageButton = (ImageButton) findViewById(R.id.imageButton);
-
 
         name.addTextChangedListener(new TextWatcher() { //Bu text e yazılanları kontrol ediyor
             @Override
@@ -60,6 +58,13 @@ public class kisi_ekle extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 saveButton.setEnabled(!name.getText().toString().trim().isEmpty()); // eğer text boş değilse kaydet butonunu aktifleştiriyor
+
+                if (name.getText().toString().length() > 15) {
+                    System.out.println("aaaaa");
+                    Toast.makeText(getApplicationContext(), "Lütfen 15 karakterden kısa bir isim giriniz!", Toast.LENGTH_SHORT).show();
+                    ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(100);
+                    name.setText(name.getText().toString().substring(0, 15));
+                }
             }
 
             @Override
@@ -69,12 +74,12 @@ public class kisi_ekle extends AppCompatActivity {
         });
     }
 
-    public void newImage(View view){
+    public void newImage(View view) {
 
         // http://www.theappguruz.com/blog/android-take-photo-camera-gallery-code-sample
         // bu siteden aldım kodları, isteyen sitye bakabilir, ayrıntılı açıklamaları var
 
-        final CharSequence[] options = { "Yeni Fotoğraf Çek", "Galeriden Seç", "İptal" };
+        final CharSequence[] options = {"Yeni Fotoğraf Çek", "Galeriden Seç", "İptal"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Fotoğraf Ekle");
@@ -86,14 +91,12 @@ public class kisi_ekle extends AppCompatActivity {
                 {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, CAM_REQUEST);
-                }
-                else if (options[item].equals("Galeriden Seç")) // galeriyi açıyor
+                } else if (options[item].equals("Galeriden Seç")) // galeriyi açıyor
                 {
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
-                    startActivityForResult(Intent.createChooser(intent, "Select File"), 2);
-                }
-                else if (options[item].equals("İptal")) {
+                    startActivityForResult(Intent.createChooser(intent, "Uygulama Seçiniz"), 2);
+                } else if (options[item].equals("İptal")) {
                     dialog.dismiss();
                 }
             }
@@ -126,8 +129,7 @@ public class kisi_ekle extends AppCompatActivity {
                     e.printStackTrace();
                 }*/
                 imageButton.setImageBitmap(foto);
-            }
-            else if (requestCode == 2) { // galeriden fotoğraf seçiyor
+            } else if (requestCode == 2) { // galeriden fotoğraf seçiyor
                 // kodu çok incelemedim, daha sonra düzenleme yapmak gerekecek
 
                 Uri selectedImageUri = data.getData();
@@ -162,12 +164,30 @@ public class kisi_ekle extends AppCompatActivity {
 
     public void kaydet(View view) {
 
+        //database e yazıyor
+        Bitmap imageBitmap = ((BitmapDrawable) imageButton.getDrawable()).getBitmap();
+        userName = name.getText().toString();
+        if(age.getText().toString().trim().length() > 0)
+            userAge =  Integer.parseInt(age.getText().toString());
+        userGender = gender.getText().toString();
+        System.out.println(userName);
+        System.out.println(userAge);
+        System.out.println(userGender);
+
+        //int last_inserted_id = myDB.insertUser(userName, userAge, userGender, imageBitmap); //olmuyor laaaaan
+
+        //parent intent e bilgileri atıyor
+        Intent data = new Intent();
+        data.putExtra("name",userName);
+        data.putExtra("gender",userGender);
+        data.putExtra("age",userAge);
+        data.putExtra("pic",imageBitmap);
+        //data.putExtra("id",last_inserted_id);
+        setResult(RESULT_OK, data);
+
+        //kaydedildi mesajı
         Toast.makeText(this, R.string.kisi_kaydedildi, Toast.LENGTH_SHORT).show();
 
-        Intent data = new Intent();
-        setResult(RESULT_OK, data);
-        //burada bilgileri file a kaydetmesi lazım
-        //bu activity diğerine cevap veriyor çünkü sadece burada file a yazma işlemi olursa diğeri file okusun
 
         finish();
     }
